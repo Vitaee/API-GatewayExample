@@ -1,0 +1,66 @@
+services:
+  api-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.production
+    volumes:
+      - ./logs:/app/logs
+      - /app/node_modules
+    networks:
+      - gateway-network
+    
+  # Mock services for testing
+  user-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: user-service
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+    command: sh -c "node dist/src/services/users/main.js"
+    networks:
+      - gateway-network
+
+  product-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: product-service
+    restart: unless-stopped
+    ports:
+      - "3002:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3002
+    command: sh -c "node dist/src/services/products/main.js"
+    networks:
+      - gateway-network
+
+  order-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: order-service
+    restart: unless-stopped
+    ports:
+      - "3003:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3003
+    command: sh -c "node dist/src/services/orders/main.js"
+    networks:
+      - gateway-network
+
+networks:
+  gateway-network:
+    driver: bridge

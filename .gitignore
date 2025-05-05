@@ -1,0 +1,13 @@
+logs
+node_modules
+package-lock.json
+dist
+coverage
+.vscode
+.idea
+*.iml
+*.log
+*.tsbuildinfo
+
+.env
+.env.production
