@@ -17,7 +17,7 @@ export class AuthService {
   }
 
   async validateUser(username: string, password: string): Promise<any> {
-    // Mock user validation - in production this would check against a database
+    // Mock user validation
     if (username === 'admin' && password === 'admin') {
       return { id: 1, username: 'admin', roles: ['admin'] };
     }
