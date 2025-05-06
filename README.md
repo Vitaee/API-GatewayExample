@@ -71,17 +71,12 @@ The following sequence diagram details the interaction between components during
    - Retry policies for transient failures
    - Fallback responses when services are unavailable
 
-## Installation
+## Running the app
 
 ```bash
-# Clone the repository
-git clone <repository-url>
+git clone https://github.com/Vitaee/API-GatewayExample.git
 
-# Install dependencies
-npm install
 ```
-
-## Running the app
 
 ```bash
 docker compose build
@@ -91,7 +86,7 @@ docker compose up
 
 ## Environment Variables
 
-Create a `.env` file in the root directory with the following variables:
+Create a `.env.production` file in the root directory with the following variables:
 
 ```
 # API Gateway Configuration
@@ -107,9 +102,9 @@ THROTTLE_TTL=60
 THROTTLE_LIMIT=100
 
 # Service URLs
-USER_SERVICE_URL=http://localhost:3001
-PRODUCT_SERVICE_URL=http://localhost:3002
-ORDER_SERVICE_URL=http://localhost:3003
+USER_SERVICE_URL=http://docker-service1:3001
+PRODUCT_SERVICE_URL=http://docker-service2:3002
+ORDER_SERVICE_URL=http://docker-service3:3003
 
 # Cache Settings
 CACHE_TTL=60
@@ -118,4 +113,13 @@ CACHE_TTL=60
 CIRCUIT_BREAKER_TIMEOUT=3000
 CIRCUIT_BREAKER_RESET_TIMEOUT=30000
 CIRCUIT_BREAKER_ERROR_THRESHOLD=50
+```
+
+## Test gateway with apache benchmark
+
+```
+ab -n 10000 \
+   -c 200 \
+   -H "Authorization: Bearer verysecrettoken" \
+   http://localhost:3000/users
 ```

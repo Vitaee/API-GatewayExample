@@ -24,7 +24,7 @@ export class LoggingInterceptor implements NestInterceptor {
     
     // Log request
     this.logger.log({
-      message: `Incoming request`,
+      message: `Incoming request ${method} -  ${url} - ${requestId} - ${ip}`,
       requestId,
       method,
       url,

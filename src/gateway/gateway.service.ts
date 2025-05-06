@@ -132,10 +132,11 @@ export class GatewayService {
     );
 
     try {
+      this.logger.log(`Firing request with circuit breaker for ${serviceId}`);
       return await breaker.fire();
     } catch (error) {
+      this.logger.error(`Error while processing request for ${serviceId}`, error);
       if (error instanceof HttpException) {
-        // Add circuit breaker state to error for better logging
         const customError = error as any;
         customError.circuitBreakerState = breaker.status;
         throw customError;
